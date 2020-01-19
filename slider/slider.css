@@ -1,3 +1,18 @@
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
 .slider-js {
-  max-width: 650px;
+  padding: 0 50px;
+}
+
+.slider-js-wrap {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+}
+
+.slider-js__item {
+  max-width: 100%;
 }
