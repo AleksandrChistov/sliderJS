@@ -1,18 +1,50 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 .container {
   max-width: 850px;
   margin: 0 auto;
 }
 
+img {
+  object-fit: cover;
+  object-position: center;
+  max-width: 100%;
+  height: 100%;
+}
+
 .slider-js {
   padding: 0 50px;
+  position: relative;
 }
 
 .slider-js-wrap {
   overflow: hidden;
-  position: relative;
+}
+
+.slider-js-list {
   display: flex;
 }
 
 .slider-js__item {
-  max-width: 100%;
+  width: 100%;
+}
+
+.slider-js__arrow {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: tomato;
+  top: 50%;
+  margin-top: -15px;
+}
+
+.slider-js__arrow-left {
+  left: 0;
+}
+
+.slider-js__arrow-right {
+  right: 0;
 }
