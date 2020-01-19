@@ -34,17 +34,62 @@ img {
 
 .slider-js__arrow {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  background: tomato;
+  width: 40px;
+  height: 40px;
+  font-size: 25px;
+  background-color: #802626;
+  color: #fff;
   top: 50%;
-  margin-top: -15px;
+  margin-top: -52px;
+  border: none;
+  outline: none;
+}
+
+.slider-js__arrow:hover {
+  cursor: pointer;
+  background-color: rgba(128, 38, 38, 0.5);
+}
+
+.slider-js__arrow:active {
+  background-color: #fff;
+  color: #802626;
 }
 
 .slider-js__arrow-left {
   left: 0;
+  padding-right: 3px;
 }
 
 .slider-js__arrow-right {
   right: 0;
+  padding-left: 3px;
+}
+
+.slider-js-points-list {
+  list-style-type: none;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.slider-js__point {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 8px solid #ffffff;
+  background-color: #802626;
+  border-radius: 50%;
+}
+
+.slider-js__point:nth-child(n+2) {
+  margin-left: 10px;
+}
+
+.slider-js__point:hover {
+  cursor: pointer;
+  border: 8px solid #802626;
+  background-color: #ffffff;
+}
+
+.slider-js__point:active {
+  border: 8px solid rgba(128, 38, 38, 0.5);
 }

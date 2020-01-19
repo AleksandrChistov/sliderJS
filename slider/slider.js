@@ -11,6 +11,9 @@ function sliderJS(selector, options) {
     addClasses();
     createPoints();
     addElements();
+
+    arrowLeft.innerHTML = '&#9668;';
+    arrowRight.innerHTML = '&#9658;';
   }
 
   function addClasses() {
