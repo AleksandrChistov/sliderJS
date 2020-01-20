@@ -101,23 +101,43 @@ function sliderJS(selector, options = {}) {
   function prevSlider() {
     if (position >= 0) {
       position--;
-      list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
-      jump();
+      slideAnimation('prev');
+      setTimeout(jump, 400);
     }
   }
 
   function nextSlider() {
     if (position < slides.length) {
       position++;
-      list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
-      jump();
+
+      slideAnimation('next');
+      setTimeout(jump, 400);
     }
+  }
+
+  function slideAnimation(direction) {
+    let start = Date.now();
+    let shift = widthSlide / 40;
+    let newShift = (direction === 'next') ? shift : widthSlide * 2;
+
+    let timer = setInterval(function() {
+      let timePassed = Date.now() - start;
+      newShift = (direction === 'next') ? newShift + shift : newShift - shift;
+
+      if (timePassed >= 400) {
+        clearInterval(timer);
+        list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
+        return;
+      }
+
+      list.style.transform = `translateX(${-widthSlide * position - newShift}px)`;
+    }, 10);
   }
 
   function jump() {
     if (position === slides.length) {
       position = 0;
-        list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
+      list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
     }
 
     if (position === -1) {
