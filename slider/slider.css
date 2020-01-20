@@ -4,13 +4,13 @@
 }
 
 .container {
-  max-width: 850px;
+  max-width: 1050px;
   margin: 0 auto;
 }
 
 img {
+  display: block;
   object-fit: cover;
-  object-position: center;
   max-width: 100%;
   height: 100%;
 }
@@ -30,7 +30,6 @@ img {
 
 .slider-js__slide{
   width: 100%;
-  margin: 0 10px;
 }
 
 .slider-js__arrow {
