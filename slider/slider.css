@@ -28,10 +28,6 @@ img {
   display: flex;
 }
 
-.slider-js__slide{
-  width: 100%;
-}
-
 .slider-js__arrow {
   position: absolute;
   width: 40px;

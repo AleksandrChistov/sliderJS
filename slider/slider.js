@@ -10,6 +10,8 @@ function sliderJS(selector, options = {}) {
   let widthSlide = 0;
   let widthWrapSlides = 0;
   let position = 0;
+  let cloneFirst;
+  let cloneLast;
 
   function init() {
     arrowLeft.innerHTML = '&#9668;';
@@ -47,7 +49,22 @@ function sliderJS(selector, options = {}) {
       slide.setAttribute('id', 'slider-js-slide-' + index);
       slide.setAttribute('data-slider-index', index);
       // slide.style.margin = '0 ' + marginSlide;
+
+      if (index === 0) {
+        cloneFirst = slide.cloneNode(true);
+        cloneFirst.setAttribute('id', 'slider-js-slide-clone1');
+        cloneFirst.setAttribute('data-slider-index', -1);
+        list.append(cloneFirst);
+      }
+
       list.append(slide);
+
+      if (index === slides.length - 1) {
+        cloneLast = slide.cloneNode(true);
+        cloneLast.setAttribute('id', 'slider-js-slide-clone2');
+        cloneLast.setAttribute('data-slider-index', slides.length);
+        list.append(cloneLast);
+      }
     });
   
     wrapper.append(list);
@@ -62,11 +79,14 @@ function sliderJS(selector, options = {}) {
     // widthWrapSlides = (widthSlide + parseInt(marginSlide) * 2) * slides.length;
 
     widthSlide = slider.offsetWidth - 100;
-    widthWrapSlides = widthSlide * slides.length;
+    widthWrapSlides = widthSlide * slides.length + (widthSlide * 2);
 
     slides.forEach(slide => {
       slide.style.width = widthSlide + 'px';
     });
+
+    cloneFirst.style.width = widthSlide + 'px';
+    cloneLast.style.width = widthSlide + 'px';
 
     list.style.width = widthWrapSlides + 'px';
   }
