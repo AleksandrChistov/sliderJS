@@ -22,6 +22,8 @@ function sliderJS(selector, options = {}) {
     addElements();
     setWidth();
     eventHandlerArrow();
+
+    list.style.transform = `translateX(${-widthSlide}px)`;
   }
 
   function addClasses() {
@@ -54,7 +56,6 @@ function sliderJS(selector, options = {}) {
         cloneFirst = slide.cloneNode(true);
         cloneFirst.setAttribute('id', 'slider-js-slide-clone1');
         cloneFirst.setAttribute('data-slider-index', -1);
-        list.append(cloneFirst);
       }
 
       list.append(slide);
@@ -63,7 +64,8 @@ function sliderJS(selector, options = {}) {
         cloneLast = slide.cloneNode(true);
         cloneLast.setAttribute('id', 'slider-js-slide-clone2');
         cloneLast.setAttribute('data-slider-index', slides.length);
-        list.append(cloneLast);
+        list.prepend(cloneLast);
+        list.append(cloneFirst);
       }
     });
   
@@ -92,23 +94,35 @@ function sliderJS(selector, options = {}) {
   }
 
   function eventHandlerArrow() {
-    arrowLeft.addEventListener('click', prevSlider)
-    arrowRight.addEventListener('click', nextSlider)
+    arrowLeft.addEventListener('click', prevSlider);
+    arrowRight.addEventListener('click', nextSlider);
   }
 
   function prevSlider() {
-    if (position > 0) {
+    if (position >= 0) {
       position--;
-      console.log(position);
-      list.style.transform = `translateX(${-widthSlide * position}px)`
+      list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
+      jump();
     }
   }
 
   function nextSlider() {
-    if (position < slides.length - 1) {
+    if (position < slides.length) {
       position++;
-      console.log(position);
-      list.style.transform = `translateX(${-widthSlide * position}px)`
+      list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
+      jump();
+    }
+  }
+
+  function jump() {
+    if (position === slides.length) {
+      position = 0;
+        list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
+    }
+
+    if (position === -1) {
+      position = slides.length - 1;
+      list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
     }
   }
 
