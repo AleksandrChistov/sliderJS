@@ -2,11 +2,10 @@ function sliderJS(selector, options = {}) {
   const slider = document.querySelector(selector);
   const wrapper = document.createElement('div');
   const list = document.createElement('div');
-  const slides = document.querySelectorAll(selector + ' div');
+  const slides = document.querySelectorAll(selector + ' > div');
   const arrowLeft = document.createElement('button');
   const arrowRight = document.createElement('button');
   const pointsWrap = document.createElement('ul');
-  // let marginSlide = options.margin || '10px';
   let widthSlide = 0;
   let widthWrapSlides = 0;
   let position = 0;
@@ -50,7 +49,6 @@ function sliderJS(selector, options = {}) {
       slide.classList.add('slider-js__slide');
       slide.setAttribute('id', 'slider-js-slide-' + index);
       slide.setAttribute('data-slider-index', index);
-      // slide.style.margin = '0 ' + marginSlide;
 
       if (index === 0) {
         cloneFirst = slide.cloneNode(true);
@@ -77,9 +75,6 @@ function sliderJS(selector, options = {}) {
   }
 
   function setWidth() {
-    // widthSlide = slider.offsetWidth - 100 - (parseInt(marginSlide) * 2);
-    // widthWrapSlides = (widthSlide + parseInt(marginSlide) * 2) * slides.length;
-
     widthSlide = slider.offsetWidth - 100;
     widthWrapSlides = widthSlide * slides.length + (widthSlide * 2);
 
@@ -101,8 +96,14 @@ function sliderJS(selector, options = {}) {
   function prevSlider() {
     if (position >= 0) {
       position--;
+
+      arrowLeft.removeEventListener('click', prevSlider);
       slideAnimation('prev');
-      setTimeout(jump, 400);
+
+      setTimeout(() => {
+        jump();
+        arrowLeft.addEventListener('click', prevSlider);
+      }, 400);
     }
   }
 
@@ -110,8 +111,13 @@ function sliderJS(selector, options = {}) {
     if (position < slides.length) {
       position++;
 
+      arrowRight.removeEventListener('click', nextSlider);
       slideAnimation('next');
-      setTimeout(jump, 400);
+
+      setTimeout(() => {
+        jump();
+        arrowRight.addEventListener('click', nextSlider);
+      }, 400);
     }
   }
 
