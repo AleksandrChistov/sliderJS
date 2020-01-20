@@ -6,7 +6,7 @@ function sliderJS(selector, options = {}) {
   const arrowLeft = document.createElement('button');
   const arrowRight = document.createElement('button');
   const pointsWrap = document.createElement('ul');
-  let marginSlide = options.margin || '10px';
+  // let marginSlide = options.margin || '10px';
   let widthSlide = 0;
   let widthWrapSlides = 0;
   let position = 0;
@@ -18,16 +18,7 @@ function sliderJS(selector, options = {}) {
     addClasses();
     createPoints();
     addElements();
-
-    widthSlide = slider.offsetWidth - 100 - (parseInt(marginSlide) * 2);
-    widthWrapSlides = (widthSlide + parseInt(marginSlide) * 2) * slides.length;
-
-    slides.forEach(slide => {
-      slide.style.width = widthSlide + 'px';
-    });
-
-    list.style.width = widthWrapSlides + 'px';
-
+    setWidth();
     eventHandlerArrow();
   }
 
@@ -55,7 +46,7 @@ function sliderJS(selector, options = {}) {
       slide.classList.add('slider-js__slide');
       slide.setAttribute('id', 'slider-js-slide-' + index);
       slide.setAttribute('data-slider-index', index);
-      slide.style.margin = '0 ' + marginSlide;
+      // slide.style.margin = '0 ' + marginSlide;
       list.append(slide);
     });
   
@@ -66,20 +57,39 @@ function sliderJS(selector, options = {}) {
     slider.append(pointsWrap);
   }
 
+  function setWidth() {
+    // widthSlide = slider.offsetWidth - 100 - (parseInt(marginSlide) * 2);
+    // widthWrapSlides = (widthSlide + parseInt(marginSlide) * 2) * slides.length;
+
+    widthSlide = slider.offsetWidth - 100;
+    widthWrapSlides = widthSlide * slides.length;
+
+    slides.forEach(slide => {
+      slide.style.width = widthSlide + 'px';
+    });
+
+    list.style.width = widthWrapSlides + 'px';
+  }
+
   function eventHandlerArrow() {
     arrowLeft.addEventListener('click', prevSlider)
     arrowRight.addEventListener('click', nextSlider)
   }
 
   function prevSlider() {
-    position--;
-    console.log(position);
-    
+    if (position > 0) {
+      position--;
+      console.log(position);
+      list.style.transform = `translateX(${-widthSlide * position}px)`
+    }
   }
 
   function nextSlider() {
-    position++;
-    console.log(position);
+    if (position < slides.length - 1) {
+      position++;
+      console.log(position);
+      list.style.transform = `translateX(${-widthSlide * position}px)`
+    }
   }
 
   init();
