@@ -6,6 +6,7 @@ function sliderJS(selector, options = {}) {
   const arrowLeft = document.createElement('button');
   const arrowRight = document.createElement('button');
   const pointsWrap = document.createElement('ul');
+  let points;
   let widthSlide = 0;
   let widthWrapSlides = 0;
   let position = 0;
@@ -23,6 +24,8 @@ function sliderJS(selector, options = {}) {
     eventHandlerArrow();
 
     list.style.transform = `translateX(${-widthSlide}px)`;
+
+    points = document.querySelectorAll('.slider-js-points-list > li');
   }
 
   function addClasses() {
@@ -38,6 +41,11 @@ function sliderJS(selector, options = {}) {
     for (let i = 0; i < slides.length; i++) {
       const point = document.createElement('li');
       point.classList.add('slider-js__point');
+
+      if (i === 0) {
+        point.classList.add('slider-js__point_active');
+      }
+
       point.setAttribute('id', 'slider-js-point-' + i);
       point.setAttribute('data-slider-index', i);
       pointsWrap.append(point);
@@ -101,6 +109,9 @@ function sliderJS(selector, options = {}) {
       slideAnimation('prev');
 
       setTimeout(() => {
+        points[position + 1].classList.remove('slider-js__point_active');
+        points[(position >= 0) ? position : slides.length - 1].classList.add('slider-js__point_active');
+
         jump();
         arrowLeft.addEventListener('click', prevSlider);
       }, 400);
@@ -115,6 +126,9 @@ function sliderJS(selector, options = {}) {
       slideAnimation('next');
 
       setTimeout(() => {
+        points[position - 1].classList.remove('slider-js__point_active');
+        points[(position < slides.length) ? position : 0].classList.add('slider-js__point_active');
+        
         jump();
         arrowRight.addEventListener('click', nextSlider);
       }, 400);

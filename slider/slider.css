@@ -81,6 +81,11 @@ img {
   border-radius: 50%;
 }
 
+.slider-js__point_active {
+  border: 8px solid #802626;
+  background-color: #ffffff;
+}
+
 .slider-js__point:nth-child(n+2) {
   margin-left: 10px;
 }
