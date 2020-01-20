@@ -7,6 +7,7 @@ function sliderJS(selector, options = {}) {
   const arrowRight = document.createElement('button');
   const pointsWrap = document.createElement('ul');
   let points;
+  let activePoint = 0;
   let widthSlide = 0;
   let widthWrapSlides = 0;
   let position = 0;
@@ -22,6 +23,8 @@ function sliderJS(selector, options = {}) {
     addElements();
     setWidth();
     eventHandlerArrow();
+
+    pointsWrap.addEventListener('click', toggleSlide);
 
     list.style.transform = `translateX(${-widthSlide}px)`;
 
@@ -106,14 +109,19 @@ function sliderJS(selector, options = {}) {
       position--;
 
       arrowLeft.removeEventListener('click', prevSlider);
+      pointsWrap.removeEventListener('click', toggleSlide);
+
       slideAnimation('prev');
 
       setTimeout(() => {
-        points[position + 1].classList.remove('slider-js__point_active');
-        points[(position >= 0) ? position : slides.length - 1].classList.add('slider-js__point_active');
+        points[activePoint].classList.remove('slider-js__point_active');
+        activePoint = (position >= 0) ? position : slides.length - 1;
+        points[activePoint].classList.add('slider-js__point_active');
 
         jump();
+
         arrowLeft.addEventListener('click', prevSlider);
+        pointsWrap.addEventListener('click', toggleSlide);
       }, 400);
     }
   }
@@ -123,34 +131,46 @@ function sliderJS(selector, options = {}) {
       position++;
 
       arrowRight.removeEventListener('click', nextSlider);
+      pointsWrap.removeEventListener('click', toggleSlide);
+
       slideAnimation('next');
 
       setTimeout(() => {
-        points[position - 1].classList.remove('slider-js__point_active');
-        points[(position < slides.length) ? position : 0].classList.add('slider-js__point_active');
+        points[activePoint].classList.remove('slider-js__point_active');
+        activePoint = (position < slides.length) ? position : 0;
+        points[activePoint].classList.add('slider-js__point_active');
         
         jump();
+        
         arrowRight.addEventListener('click', nextSlider);
+        pointsWrap.addEventListener('click', toggleSlide);
       }, 400);
     }
   }
 
   function slideAnimation(direction) {
     let start = Date.now();
-    let shift = widthSlide / 40;
-    let newShift = (direction === 'next') ? shift : widthSlide * 2;
+    let currentPosition = activePoint * -widthSlide - widthSlide;
+    let endPosition = position * widthSlide + widthSlide;
+    let step;
+
+    if (direction === 'next') {
+      step = (endPosition + currentPosition) / 40;
+    } else {
+      step = (currentPosition + endPosition) / 40 * -1;
+    }
 
     let timer = setInterval(function() {
       let timePassed = Date.now() - start;
-      newShift = (direction === 'next') ? newShift + shift : newShift - shift;
+      currentPosition = (direction === 'next') ? currentPosition - step : currentPosition + step;
 
       if (timePassed >= 400) {
         clearInterval(timer);
         list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
         return;
       }
-
-      list.style.transform = `translateX(${-widthSlide * position - newShift}px)`;
+      
+      list.style.transform = `translateX(${currentPosition}px)`;
     }, 10);
   }
 
@@ -163,6 +183,20 @@ function sliderJS(selector, options = {}) {
     if (position === -1) {
       position = slides.length - 1;
       list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
+    }
+  }
+
+  function toggleSlide() {
+    let clickPosition = +event.target.dataset.sliderIndex;
+
+    if (!isNaN(clickPosition)) {
+      if (clickPosition < position) {
+        position = clickPosition + 1;
+        prevSlider();
+      } else {
+        position = clickPosition - 1;
+        nextSlider();
+      }
     }
   }
 
