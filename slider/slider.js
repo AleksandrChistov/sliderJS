@@ -9,6 +9,7 @@ function sliderJS(selector, options = {}) {
   let marginSlide = options.margin || '10px';
   let widthSlide = 0;
   let widthWrapSlides = 0;
+  let position = 0;
 
   function init() {
     arrowLeft.innerHTML = '&#9668;';
@@ -26,6 +27,8 @@ function sliderJS(selector, options = {}) {
     });
 
     list.style.width = widthWrapSlides + 'px';
+
+    eventHandlerArrow();
   }
 
   function addClasses() {
@@ -42,6 +45,7 @@ function sliderJS(selector, options = {}) {
       const point = document.createElement('li');
       point.classList.add('slider-js__point');
       point.setAttribute('id', 'slider-js-point-' + i);
+      point.setAttribute('data-slider-index', i);
       pointsWrap.append(point);
     }
   }
@@ -50,6 +54,7 @@ function sliderJS(selector, options = {}) {
     slides.forEach((slide, index) => {
       slide.classList.add('slider-js__slide');
       slide.setAttribute('id', 'slider-js-slide-' + index);
+      slide.setAttribute('data-slider-index', index);
       slide.style.margin = '0 ' + marginSlide;
       list.append(slide);
     });
@@ -59,6 +64,22 @@ function sliderJS(selector, options = {}) {
     slider.append(arrowLeft);
     slider.append(arrowRight);
     slider.append(pointsWrap);
+  }
+
+  function eventHandlerArrow() {
+    arrowLeft.addEventListener('click', prevSlider)
+    arrowRight.addEventListener('click', nextSlider)
+  }
+
+  function prevSlider() {
+    position--;
+    console.log(position);
+    
+  }
+
+  function nextSlider() {
+    position++;
+    console.log(position);
   }
 
   init();
