@@ -8,9 +8,9 @@ function sliderJS(selector, options = {}) {
   const pointsWrap = document.createElement('ul');
   let points;
   let activePoint = 0;
+  let position = 0;
   let widthSlide = 0;
   let widthWrapSlides = 0;
-  let position = 0;
   let cloneFirst;
   let cloneLast;
 
@@ -166,7 +166,6 @@ function sliderJS(selector, options = {}) {
         currentPosition = (direction === 'next') ? currentPosition - step : currentPosition + step;
   
         if (timePassed >= 400 && currentPosition >= -endPosition) {
-          console.log(currentPosition, -endPosition);
           clearInterval(timer);
           resolve();
         }
