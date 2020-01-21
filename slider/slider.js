@@ -49,7 +49,6 @@ function sliderJS(selector, options = {}) {
         point.classList.add('slider-js__point_active');
       }
 
-      point.setAttribute('id', 'slider-js-point-' + i);
       point.setAttribute('data-slider-index', i);
       pointsWrap.append(point);
     }
@@ -58,21 +57,15 @@ function sliderJS(selector, options = {}) {
   function addElements() {
     slides.forEach((slide, index) => {
       slide.classList.add('slider-js__slide');
-      slide.setAttribute('id', 'slider-js-slide-' + index);
-      slide.setAttribute('data-slider-index', index);
 
       if (index === 0) {
         cloneFirst = slide.cloneNode(true);
-        cloneFirst.setAttribute('id', 'slider-js-slide-clone1');
-        cloneFirst.setAttribute('data-slider-index', -1);
       }
 
       list.append(slide);
 
       if (index === slides.length - 1) {
         cloneLast = slide.cloneNode(true);
-        cloneLast.setAttribute('id', 'slider-js-slide-clone2');
-        cloneLast.setAttribute('data-slider-index', slides.length);
         list.prepend(cloneLast);
         list.append(cloneFirst);
       }
