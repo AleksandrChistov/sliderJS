@@ -25,9 +25,9 @@ img {
   position: relative;
 }
 
-/* .slider-js-wrap {
+.slider-js-wrap {
   overflow: hidden;
-} */
+}
 
 .slider-js-list {
   display: flex;

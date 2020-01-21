@@ -111,9 +111,9 @@ function sliderJS(selector, options = {}) {
       arrowLeft.removeEventListener('click', prevSlider);
       pointsWrap.removeEventListener('click', toggleSlide);
 
-      slideAnimation('prev');
+      slideAnimation('prev').then(() => {
+        list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
 
-      setTimeout(() => {
         points[activePoint].classList.remove('slider-js__point_active');
         activePoint = (position >= 0) ? position : slides.length - 1;
         points[activePoint].classList.add('slider-js__point_active');
@@ -122,7 +122,7 @@ function sliderJS(selector, options = {}) {
 
         arrowLeft.addEventListener('click', prevSlider);
         pointsWrap.addEventListener('click', toggleSlide);
-      }, 400);
+      });
     }
   }
 
@@ -133,9 +133,9 @@ function sliderJS(selector, options = {}) {
       arrowRight.removeEventListener('click', nextSlider);
       pointsWrap.removeEventListener('click', toggleSlide);
 
-      slideAnimation('next');
+      slideAnimation('next').then(() => {
+        list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
 
-      setTimeout(() => {
         points[activePoint].classList.remove('slider-js__point_active');
         activePoint = (position < slides.length) ? position : 0;
         points[activePoint].classList.add('slider-js__point_active');
@@ -144,7 +144,7 @@ function sliderJS(selector, options = {}) {
         
         arrowRight.addEventListener('click', nextSlider);
         pointsWrap.addEventListener('click', toggleSlide);
-      }, 400);
+      });
     }
   }
 
@@ -160,18 +160,20 @@ function sliderJS(selector, options = {}) {
       step = (currentPosition + endPosition) / 40 * -1;
     }
 
-    let timer = setInterval(function() {
-      let timePassed = Date.now() - start;
-      currentPosition = (direction === 'next') ? currentPosition - step : currentPosition + step;
-
-      if (timePassed >= 400) {
-        clearInterval(timer);
-        list.style.transform = `translateX(${-widthSlide * position - widthSlide}px)`;
-        return;
-      }
-      
-      list.style.transform = `translateX(${currentPosition}px)`;
-    }, 10);
+    return new Promise(resolve => {
+      let timer = setInterval(function() {
+        let timePassed = Date.now() - start;
+        currentPosition = (direction === 'next') ? currentPosition - step : currentPosition + step;
+  
+        if (timePassed >= 400 && currentPosition >= -endPosition) {
+          console.log(currentPosition, -endPosition);
+          clearInterval(timer);
+          resolve();
+        }
+        
+        list.style.transform = `translateX(${currentPosition}px)`;
+      }, 10);
+    });
   }
 
   function jump() {
