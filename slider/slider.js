@@ -192,7 +192,9 @@ function sliderJS(selector, options = {}) {
     let clickPosition = +event.target.dataset.sliderIndex;
 
     if (!isNaN(clickPosition)) {
-      if (clickPosition < position) {
+      if (clickPosition === position) {
+        return false;
+      } else if (clickPosition < position) {
         position = clickPosition + 1;
         prevSlider();
       } else {
